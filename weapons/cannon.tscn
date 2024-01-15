@@ -1,0 +1,105 @@
+[gd_scene load_steps=16 format=3 uid="uid://olli30rvie70"]
+
+[ext_resource type="Script" path="res://components/spawner_component.gd" id="1_ogafm"]
+[ext_resource type="Script" path="res://weapons/cannon.gd" id="1_s8u4s"]
+[ext_resource type="Texture2D" uid="uid://tnuny5kdk6mo" path="res://assets/Connonfire.png" id="2_408g6"]
+[ext_resource type="PackedScene" uid="uid://06j1tjyemivv" path="res://projectiles/cannonball.tscn" id="3_hxgd3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ddhgl"]
+atlas = ExtResource("2_408g6")
+region = Rect2(0, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6bw8"]
+atlas = ExtResource("2_408g6")
+region = Rect2(120, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yw5w2"]
+atlas = ExtResource("2_408g6")
+region = Rect2(240, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_22xxw"]
+atlas = ExtResource("2_408g6")
+region = Rect2(360, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1c5m1"]
+atlas = ExtResource("2_408g6")
+region = Rect2(480, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqhf7"]
+atlas = ExtResource("2_408g6")
+region = Rect2(600, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdgx0"]
+atlas = ExtResource("2_408g6")
+region = Rect2(720, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83yk2"]
+atlas = ExtResource("2_408g6")
+region = Rect2(840, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yd4fj"]
+atlas = ExtResource("2_408g6")
+region = Rect2(960, 0, 120, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05yx8"]
+atlas = ExtResource("2_408g6")
+region = Rect2(1080, 0, 120, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qigc1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ddhgl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6bw8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yw5w2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22xxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1c5m1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gqhf7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fdgx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83yk2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yd4fj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05yx8")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"fire",
+"speed": 10.0
+}]
+
+[node name="Cannon" type="Node2D"]
+script = ExtResource("1_s8u4s")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="SpawnerComponent" type="Node2D" parent="."]
+script = ExtResource("1_ogafm")
+scene = ExtResource("3_hxgd3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(4, -20)
+sprite_frames = SubResource("SpriteFrames_qigc1")
+animation = &"fire"
+frame_progress = 0.726946

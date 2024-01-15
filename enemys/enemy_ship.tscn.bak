@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=3 uid="uid://dy2maoqewnwcp"]
+
+[ext_resource type="Texture2D" uid="uid://br8qst5xst4os" path="res://assets/boot2d.png" id="1_r3bql"]
+[ext_resource type="Script" path="res://components/ship_stats_component.gd" id="2_bt3vi"]
+[ext_resource type="Script" path="res://components/ship_move_component.gd" id="3_1afw8"]
+[ext_resource type="Script" path="res://components/ai_target_direction_component.gd" id="4_p7n5x"]
+[ext_resource type="Script" path="res://components/weapon_group_component.gd" id="5_ape1x"]
+[ext_resource type="Script" path="res://components/rotate_to_target_component.gd" id="5_kypql"]
+[ext_resource type="PackedScene" uid="uid://bo22ah23v6b4x" path="res://weapons/cannon.tscn" id="6_fq671"]
+[ext_resource type="Script" path="res://components/get_target_player_component.gd" id="6_qjuyf"]
+[ext_resource type="Script" path="res://components/fire_weapon_detection_component.gd" id="7_x3bm6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h6es7"]
+size = Vector2(426.993, 53.9441)
+
+[node name="EnemyShip" type="CharacterBody2D"]
+collision_layer = 5
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("1_r3bql")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-3.09944e-06, -0.460533)
+scale = Vector2(1.17187, 1.07895)
+polygon = PackedVector2Array(-40.9602, -2.35365, -34.1335, -15.3292, -17.0667, -21.817, 18.7734, -21.817, 33.2801, -16.2561, 40.9602, -0.499993, 33.2801, 17.1097, 18.7734, 22.6707, -17.9201, 23.5975, -35.8401, 14.3292, -40.9602, 2.28049)
+
+[node name="Movement" type="Node2D" parent="."]
+
+[node name="ShipStatsComponent" type="Node" parent="Movement"]
+unique_name_in_owner = true
+script = ExtResource("2_bt3vi")
+SPEED = 100
+
+[node name="ShipMoveComponent" type="Node" parent="Movement" node_paths=PackedStringArray("moving_character", "target_direction", "stats")]
+unique_name_in_owner = true
+script = ExtResource("3_1afw8")
+moving_character = NodePath("../..")
+target_direction = NodePath("../AiTargetDirectionComponent")
+stats = NodePath("../ShipStatsComponent")
+
+[node name="AiTargetDirectionComponent" type="Node" parent="Movement"]
+script = ExtResource("4_p7n5x")
+
+[node name="RotateToTargetComponent" type="Node" parent="Movement" node_paths=PackedStringArray("moving_character", "target")]
+script = ExtResource("5_kypql")
+moving_character = NodePath("../..")
+target = NodePath("../GetTargetPlayerComponent")
+
+[node name="GetTargetPlayerComponent" type="Node2D" parent="Movement"]
+script = ExtResource("6_qjuyf")
+
+[node name="Weapons" type="Node2D" parent="."]
+
+[node name="WeaponGroupComponent" type="Node2D" parent="Weapons" node_paths=PackedStringArray("fire_weapon_detection", "firerate_timer", "weapon_user")]
+script = ExtResource("5_ape1x")
+fire_weapon_detection = NodePath("../FireWeaponDetectionComponent")
+firerate_timer = NodePath("../Timer")
+weapon_user = NodePath("../..")
+
+[node name="Cannon" parent="Weapons/WeaponGroupComponent" instance=ExtResource("6_fq671")]
+position = Vector2(26, 0)
+rotation = 1.5708
+
+[node name="FireWeaponDetectionComponent" type="Area2D" parent="Weapons"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_x3bm6")
+preame_direction = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapons/FireWeaponDetectionComponent"]
+position = Vector2(192.332, 0.5)
+scale = Vector2(0.761925, -0.908347)
+shape = SubResource("RectangleShape2D_h6es7")
+
+[node name="Timer" type="Timer" parent="Weapons"]
+wait_time = 1.758
+
+[connection signal="body_entered" from="Weapons/FireWeaponDetectionComponent" to="Weapons/FireWeaponDetectionComponent" method="_on_body_entered"]
+[connection signal="body_exited" from="Weapons/FireWeaponDetectionComponent" to="Weapons/FireWeaponDetectionComponent" method="_on_body_exited"]

@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://06j1tjyemivv"]
+
+[ext_resource type="Script" path="res://projectiles/cannonball.gd" id="1_5jvgh"]
+[ext_resource type="Texture2D" uid="uid://g58y8qeymqf8" path="res://assets/Cannonball.png" id="2_o125v"]
+[ext_resource type="Script" path="res://components/scale_component.gd" id="3_5v53b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xy540"]
+radius = 8.0
+
+[node name="Cannonball" type="RigidBody2D"]
+collision_layer = 0
+collision_mask = 4
+gravity_scale = 0.0
+linear_damp = 1.0
+script = ExtResource("1_5jvgh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CircleShape2D_xy540")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_o125v")
+
+[node name="ScaleComponent" type="Node" parent="." node_paths=PackedStringArray("target")]
+script = ExtResource("3_5v53b")
+target = NodePath("..")
+scale_amount = Vector2(2, 2)
+scale_duration = 2.0

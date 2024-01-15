@@ -1,0 +1,128 @@
+[gd_scene load_steps=10 format=3 uid="uid://c41mmu0gi8tyq"]
+
+[ext_resource type="Script" path="res://components/controller_component.gd" id="1_hcioi"]
+[ext_resource type="Texture2D" uid="uid://cyy2hyoyl7mju" path="res://assets/PirateShip.png" id="2_1wrv8"]
+[ext_resource type="Script" path="res://components/ship_stats_component.gd" id="3_qh7ux"]
+[ext_resource type="Script" path="res://components/ship_move_component.gd" id="4_0htgs"]
+[ext_resource type="Script" path="res://components/weapon_group_component.gd" id="5_fenn2"]
+[ext_resource type="PackedScene" uid="uid://olli30rvie70" path="res://weapons/cannon.tscn" id="6_4ov2y"]
+[ext_resource type="Script" path="res://components/fire_weapon_detection_component.gd" id="7_fh3v4"]
+[ext_resource type="AudioStream" uid="uid://cpd8dbmdx1d78" path="res://d.mp3" id="8_r3b05"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_13att"]
+size = Vector2(212.499, 696.873)
+
+[node name="PlayerShip" type="CharacterBody2D"]
+top_level = true
+z_index = 3
+scale = Vector2(0.46, 0.46)
+collision_layer = 3
+motion_mode = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 4.71239
+texture = ExtResource("2_1wrv8")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 4.71239
+polygon = PackedVector2Array(-4, -152, 23, -152, 39, -119, 44, 87, 36, 112, 24, 129, 1, 148, -14, 137, -35, 111, -44, 87, -41, -122, -30, -140, -21, -152)
+
+[node name="Movement" type="Node2D" parent="."]
+
+[node name="ShipStatsComponent" type="Node" parent="Movement"]
+unique_name_in_owner = true
+script = ExtResource("3_qh7ux")
+
+[node name="ControllerComponent" type="Node" parent="Movement"]
+unique_name_in_owner = true
+script = ExtResource("1_hcioi")
+
+[node name="ShipMoveComponent" type="Node" parent="Movement" node_paths=PackedStringArray("moving_character", "target_direction", "stats")]
+unique_name_in_owner = true
+script = ExtResource("4_0htgs")
+moving_character = NodePath("../..")
+target_direction = NodePath("../ControllerComponent")
+stats = NodePath("../ShipStatsComponent")
+move_and_rotate = true
+
+[node name="LeftCannons" type="Node2D" parent="."]
+
+[node name="WeaponGroupComponent" type="Node2D" parent="LeftCannons" node_paths=PackedStringArray("fire_weapon_detection", "firerate_timer", "weapon_user")]
+script = ExtResource("5_fenn2")
+fire_weapon_detection = NodePath("../FireWeaponDetection")
+firerate_timer = NodePath("../FireRateTimer")
+weapon_user = NodePath("../..")
+
+[node name="Cannon" parent="LeftCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(26.087, -67.3913)
+
+[node name="Cannon2" parent="LeftCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(10.8696, -67.3913)
+
+[node name="Cannon3" parent="LeftCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(-4.34783, -67.3913)
+
+[node name="Cannon4" parent="LeftCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(-65.2174, -63.0435)
+
+[node name="Cannon5" parent="LeftCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(-82.6087, -63.0435)
+
+[node name="FireWeaponDetection" type="Area2D" parent="LeftCannons"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("7_fh3v4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftCannons/FireWeaponDetection"]
+position = Vector2(-12.5, -393.749)
+shape = SubResource("RectangleShape2D_13att")
+
+[node name="FireRateTimer" type="Timer" parent="LeftCannons"]
+wait_time = 5.0
+autostart = true
+
+[node name="RightCannons" type="Node2D" parent="."]
+rotation = 3.14159
+
+[node name="WeaponGroupComponent" type="Node2D" parent="RightCannons" node_paths=PackedStringArray("fire_weapon_detection", "firerate_timer", "weapon_user")]
+script = ExtResource("5_fenn2")
+fire_weapon_detection = NodePath("../FireWeaponDetection")
+firerate_timer = NodePath("../FireRateTimer")
+weapon_user = NodePath("../..")
+
+[node name="Cannon" parent="RightCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(-28.2607, -67.3914)
+
+[node name="Cannon2" parent="RightCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(-13.0433, -67.3913)
+
+[node name="Cannon3" parent="RightCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(4.34799, -67.3913)
+
+[node name="Cannon4" parent="RightCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(65.2176, -65.2172)
+
+[node name="Cannon5" parent="RightCannons/WeaponGroupComponent" instance=ExtResource("6_4ov2y")]
+position = Vector2(82.6089, -65.2172)
+
+[node name="FireWeaponDetection" type="Area2D" parent="RightCannons"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("7_fh3v4")
+preame_direction = -1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightCannons/FireWeaponDetection"]
+position = Vector2(12.4999, -393.749)
+shape = SubResource("RectangleShape2D_13att")
+
+[node name="FireRateTimer" type="Timer" parent="RightCannons"]
+wait_time = 5.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_r3b05")
+volume_db = -25.892
+
+[connection signal="body_entered" from="LeftCannons/FireWeaponDetection" to="LeftCannons/FireWeaponDetection" method="_on_body_entered"]
+[connection signal="body_exited" from="LeftCannons/FireWeaponDetection" to="LeftCannons/FireWeaponDetection" method="_on_body_exited"]
+[connection signal="body_entered" from="RightCannons/FireWeaponDetection" to="RightCannons/FireWeaponDetection" method="_on_body_entered"]
+[connection signal="body_exited" from="RightCannons/FireWeaponDetection" to="RightCannons/FireWeaponDetection" method="_on_body_exited"]
