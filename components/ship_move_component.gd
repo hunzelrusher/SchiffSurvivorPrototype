@@ -5,14 +5,16 @@ class_name ShipMoveComponent
 @export var moving_character : CharacterBody2D
 @export var target_direction : TargetDirectionComponent
 @export var stats : ShipStatsComponent
-@export var move_and_rotate : bool = false
-@export var use_new : bool = false
 
 @onready var audio_stream_player_2d = $"../../AudioStreamPlayer2D"
 
 
 func _physics_process(_delta):
-	if (!use_new):
+	var use_old = (
+		("steuerung" in moving_character && !moving_character.steuerung.steuerung_neu)
+	|| !"steuerung" in moving_character)
+	
+	if use_old:
 		var target_velocity = target_direction.get_target_direction() * stats.SPEED
 		
 		var akt_velocity = moving_character.velocity
@@ -39,7 +41,7 @@ func _physics_process(_delta):
 
 	moving_character.move_and_slide()
 
-	if (move_and_rotate):
+	if use_old:
 		moving_character.rotation = lerp_angle(
 			moving_character.rotation, 
 			moving_character.velocity.normalized().angle(), 

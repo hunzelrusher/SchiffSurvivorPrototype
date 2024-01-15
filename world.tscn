@@ -1,12 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://61rs7cfhya3e"]
+[gd_scene load_steps=5 format=3 uid="uid://61rs7cfhya3e"]
 
 [ext_resource type="PackedScene" uid="uid://dy2maoqewnwcp" path="res://enemys/enemy_ship.tscn" id="2_qtbbx"]
 [ext_resource type="PackedScene" uid="uid://c41mmu0gi8tyq" path="res://player/player_ship.tscn" id="2_tdoti"]
+[ext_resource type="Script" path="res://CheckButton.gd" id="3_pnfkq"]
+[ext_resource type="Script" path="res://components/steuerung.gd" id="4_6evoe"]
 
 [node name="World" type="Node2D"]
 
 [node name="EnemyShip" parent="." instance=ExtResource("2_qtbbx")]
 position = Vector2(719, 384)
 
-[node name="PlayerShip" parent="." instance=ExtResource("2_tdoti")]
+[node name="PlayerShip" parent="." node_paths=PackedStringArray("steuerung") instance=ExtResource("2_tdoti")]
 position = Vector2(275, 207)
+steuerung = NodePath("../Steuerung")
+
+[node name="CheckButton" type="CheckButton" parent="." node_paths=PackedStringArray("steuerung")]
+offset_left = 972.0
+offset_top = 6.0
+offset_right = 1146.0
+offset_bottom = 37.0
+text = "Neue Steuerung"
+script = ExtResource("3_pnfkq")
+steuerung = NodePath("../Steuerung")
+
+[node name="Steuerung" type="Node2D" parent="."]
+script = ExtResource("4_6evoe")
+
+[connection signal="toggled" from="CheckButton" to="CheckButton" method="_on_toggled"]

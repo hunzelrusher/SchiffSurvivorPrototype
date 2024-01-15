@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://c41mmu0gi8tyq"]
+[gd_scene load_steps=12 format=3 uid="uid://c41mmu0gi8tyq"]
 
 [ext_resource type="Script" path="res://components/controller_component.gd" id="1_hcioi"]
+[ext_resource type="Script" path="res://player/player_ship.gd" id="1_io1g2"]
 [ext_resource type="Texture2D" uid="uid://cyy2hyoyl7mju" path="res://assets/PirateShip.png" id="2_1wrv8"]
 [ext_resource type="Script" path="res://components/ship_stats_component.gd" id="3_qh7ux"]
 [ext_resource type="Script" path="res://components/ship_move_component.gd" id="4_0htgs"]
@@ -8,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://olli30rvie70" path="res://weapons/cannon.tscn" id="6_4ov2y"]
 [ext_resource type="Script" path="res://components/fire_weapon_detection_component.gd" id="7_fh3v4"]
 [ext_resource type="AudioStream" uid="uid://cpd8dbmdx1d78" path="res://d.mp3" id="8_r3b05"]
+[ext_resource type="Script" path="res://player/AudioStreamPlayer2D.gd" id="10_l0sqg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_13att"]
 size = Vector2(212.499, 696.873)
@@ -18,6 +20,7 @@ z_index = 3
 scale = Vector2(0.46, 0.46)
 collision_layer = 3
 motion_mode = 1
+script = ExtResource("1_io1g2")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 4.71239
@@ -43,7 +46,6 @@ script = ExtResource("4_0htgs")
 moving_character = NodePath("../..")
 target_direction = NodePath("../ControllerComponent")
 stats = NodePath("../ShipStatsComponent")
-move_and_rotate = true
 
 [node name="LeftCannons" type="Node2D" parent="."]
 
@@ -121,6 +123,7 @@ wait_time = 5.0
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_r3b05")
 volume_db = -25.892
+script = ExtResource("10_l0sqg")
 
 [connection signal="body_entered" from="LeftCannons/FireWeaponDetection" to="LeftCannons/FireWeaponDetection" method="_on_body_entered"]
 [connection signal="body_exited" from="LeftCannons/FireWeaponDetection" to="LeftCannons/FireWeaponDetection" method="_on_body_exited"]
