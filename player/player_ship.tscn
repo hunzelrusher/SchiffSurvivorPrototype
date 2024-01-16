@@ -17,20 +17,29 @@ size = Vector2(212.499, 696.873)
 [node name="PlayerShip" type="CharacterBody2D"]
 top_level = true
 z_index = 3
+rotation = 0.0103263
 scale = Vector2(0.46, 0.46)
 collision_layer = 3
 motion_mode = 1
 script = ExtResource("1_io1g2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-rotation = 4.71239
-texture = ExtResource("2_1wrv8")
-
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-rotation = 4.71239
+position = Vector2(44.8861, -0.498761)
+rotation = -1.57078
+scale = Vector2(1, 1)
 polygon = PackedVector2Array(-4, -152, 23, -152, 39, -119, 44, 87, 36, 112, 24, 129, 1, 148, -14, 137, -35, 111, -44, 87, -41, -122, -30, -140, -21, -152)
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(27.4958, -0.319178)
+rotation = -1.57078
+scale = Vector2(1, 1)
+texture = ExtResource("2_1wrv8")
+offset = Vector2(0.43784, 17.5885)
+
 [node name="Movement" type="Node2D" parent="."]
+position = Vector2(-42.0657, 0.400352)
+rotation = 1.12066e-05
+scale = Vector2(1, 1)
 
 [node name="ShipStatsComponent" type="Node" parent="Movement"]
 unique_name_in_owner = true
@@ -48,6 +57,9 @@ target_direction = NodePath("../ControllerComponent")
 stats = NodePath("../ShipStatsComponent")
 
 [node name="LeftCannons" type="Node2D" parent="."]
+position = Vector2(44.8861, -0.498761)
+rotation = 1.12066e-05
+scale = Vector2(1, 1)
 
 [node name="WeaponGroupComponent" type="Node2D" parent="LeftCannons" node_paths=PackedStringArray("fire_weapon_detection", "firerate_timer", "weapon_user")]
 script = ExtResource("5_fenn2")
@@ -84,7 +96,9 @@ wait_time = 5.0
 autostart = true
 
 [node name="RightCannons" type="Node2D" parent="."]
-rotation = 3.14159
+position = Vector2(44.8861, -0.498761)
+rotation = -3.14158
+scale = Vector2(1, 1)
 
 [node name="WeaponGroupComponent" type="Node2D" parent="RightCannons" node_paths=PackedStringArray("fire_weapon_detection", "firerate_timer", "weapon_user")]
 script = ExtResource("5_fenn2")
@@ -121,6 +135,9 @@ shape = SubResource("RectangleShape2D_13att")
 wait_time = 5.0
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-42.0657, 0.400352)
+rotation = 1.12066e-05
+scale = Vector2(1, 1)
 stream = ExtResource("8_r3b05")
 volume_db = -25.892
 script = ExtResource("10_l0sqg")

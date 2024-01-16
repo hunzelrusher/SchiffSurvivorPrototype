@@ -8,6 +8,7 @@ class_name ShipMoveComponent
 
 @onready var audio_stream_player_2d = $"../../AudioStreamPlayer2D"
 
+var lerping : float = 0.0
 
 func _physics_process(_delta):
 	var use_old = (
@@ -31,10 +32,17 @@ func _physics_process(_delta):
 			moving_character.transform.x * target_direction.get_target_acceleration() * (stats.SPEED + 50),
 			stats.FRICTION
 		)
-		moving_character.rotation += (
-			target_direction.get_target_rotation() *
-			 _delta * 1.5
-		)
+		if target_direction.get_target_rotation() != 0:
+			lerping = lerp(0.0, target_direction.get_target_rotation(), stats.FRICTION) 
+			moving_character.rotation += lerping
+		else :
+			lerping = lerp(lerping, 0.0, stats.FRICTION)
+			moving_character.rotation += lerping
+		
+		print("moving_character.rotation: " + str(moving_character.rotation))
+		print("target_direction.get_target_rotation(): " + str(target_direction.get_target_rotation()))
+
+		
 		if moving_character.velocity.length() > 50 and moving_character.rotation_degrees > 90:
 			if !audio_stream_player_2d.playing:
 				audio_stream_player_2d.play(64)
